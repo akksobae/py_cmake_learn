@@ -1,0 +1,36 @@
+version: '3'
+services:
+  mypkg_test_base:
+    image: ${PROJECT_NAME}_${PACKAGE_NAME}_base${BUILD_TAG}
+    build:
+      context: ./mypkg_base
+      args:
+        http_proxy: ${http_proxy}
+        https_proxy: ${https_proxy}
+        baseimage: python
+        projectname: ${PROJECT_NAME}
+  mypkg_test_install:
+    image: ${PROJECT_NAME}_${PACKAGE_NAME}_install${BUILD_TAG}
+    build:
+      context: ./mypkg_install
+      args:
+        http_proxy: ${http_proxy}
+        https_proxy: ${https_proxy}
+        baseimage: ${PROJECT_NAME}_${PACKAGE_NAME}_base${BUILD_TAG}
+        projectname: ${PROJECT_NAME}
+        packagename: ${PACKAGE_NAME}
+    depends_on:
+      - mypkg_test_base
+  mypkg_test_run:
+    image: ${PROJECT_NAME}_${PACKAGE_NAME}_run${BUILD_TAG}
+    build:
+      context: ./mypkg_run
+      args:
+        http_proxy: ${http_proxy}
+        https_proxy: ${https_proxy}
+        baseimage: ${PROJECT_NAME}_${PACKAGE_NAME}_install${BUILD_TAG}
+        projectname: ${PROJECT_NAME}
+    depends_on:
+      - mypkg_test_install
+    working_dir: /${PROJECT_NAME}/lib/${PACKAGE_NAME}
+    entrypoint: ["/${PROJECT_NAME}/test/test.bash"]
