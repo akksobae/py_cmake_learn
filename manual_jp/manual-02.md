@@ -1,14 +1,6 @@
-<style>
-    div.title{
-        text-align: center; line-height: 120%;
-        font-size: xx-large; font-weight: bold; 
-        padding-bottom: 0.3em; margin-bottom:1em;
-        border-bottom-width: 4px; border-bottom-style: double;
-    }
-</style>
-<div class="title">
-[マニュアル（２） CMake 実装](LINK)
-</div>
+<!-- omit in toc -->
+マニュアル（２） CMake 実装
+============================================================
 
 - [1. 調査](#1-調査)
 - [2. パッケージインストール](#2-パッケージインストール)
@@ -80,7 +72,7 @@ sudo apt install -y cmake
 
 # 4. CMake 工程
 
-CMake では、 **CMakeLists.txt** という設定ファイルを書けば、
+CMake は、 **CMakeLists.txt** という設定ファイルを書けば、
 後は `cmake .; make` でビルドできるようにしてくれるというものだ。
 本当は Makefile から入るべきだったかもしれないが、ここでは省略する。
 

@@ -1,14 +1,6 @@
-<style>
-    div.title{
-        text-align: center; line-height: 120%;
-        font-size: xx-large; font-weight: bold; 
-        padding-bottom: 0.3em; margin-bottom:1em;
-        border-bottom-width: 4px; border-bottom-style: double;
-    }
-</style>
-<div class="title">
-[マニュアル（５）Docker と setup.py の整備](LINK)
-</div>
+<!-- omit in toc -->
+マニュアル（５）Docker と setup.py の整備
+============================================================
 
 - [1. 調査](#1-調査)
 - [2. ディレクトリ構成](#2-ディレクトリ構成)
@@ -90,9 +82,9 @@ CMake で Python/C Wrapper コードをビルドしていこう。
 │       │   └── mypkg_wrap.h
 │       └── mypkg_wrap.c
 ├── src-python
-│   ├── CMakeLists.txt
 │   └── mypkg
 │       ├── __init__.py
+│       ├── CMakeLists.txt
 │       └── core.py
 └── tests
     ├── CMakeLists.txt
@@ -688,9 +680,7 @@ pyproject.toml などの新しい方法でパッケージングしろと怒ら�
 今回のような CMake やら .so ファイル導入やらを伴う処理にすら難儀する。
 なので、安定版として Python コードで融通が効く
 setup.py もちゃんと知っておいた方がいい。
-pyproject.toml への挑戦は6章に譲る。
-が、執筆時点でまともに動かせていないので、
-完結するかは不明である。
+pyproject.toml の利用方法は6章に譲る。
 
 ## 5.1. setup.py の基本構成
 
@@ -805,13 +795,13 @@ from pathlib import Path
 
 class CustomInstall(install):
     def run(self):
-        # .soファイルを適切な場所にコピーする
-        shutil.copyfile(
-            Path("src-python", "libmypkg.so"),
-            Path(self.install_lib, "libmypkg.so"),
-        )
         # 通常のインストール処理を実行する
         install.run(self)
+        # .soファイルを適切な場所にコピーする
+        shutil.copyfile(
+            Path("src-python", "mypkg", "libmypkg.so"),
+            Path(self.install_lib, "mypkg", "libmypkg.so"),
+        )
 
 
 setup(
@@ -1003,5 +993,4 @@ import は成功しているし、続く pytest も成功が確認できた。
 # 8. まとめ
 
 以上で、 setup.py を用いたパッケージング・インストール方法の解説は終わりである。
-次章では、 pyproject.toml を用いた方法を試す……が、執筆時点で上手くいく目処は立っていない。
-書きながら試行錯誤する予定である。
+最終章では、 pyproject.toml を用いた方法を試す。

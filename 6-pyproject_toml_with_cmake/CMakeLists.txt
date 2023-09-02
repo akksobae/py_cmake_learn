@@ -6,7 +6,7 @@ find_package(Python REQUIRED COMPONENTS Interpreter Development)
 add_subdirectory(src/mypkg)
 add_subdirectory(src/myapp)
 add_subdirectory(src/mypkg_wrap)
-add_subdirectory(src-python)
+add_subdirectory(src-python/mypkg)
 add_subdirectory(tests)
 
 enable_testing()
@@ -21,27 +21,15 @@ file(STRINGS ${CMAKE_BINARY_DIR}/setup.cfg version
     REGEX "^version = [0-9]+\\.[0-9]+\\.[0-9]+.+$")
 string(REGEX REPLACE "^version = ([0-9]+\\.[0-9]+\\.[0-9]+.+)$" "\\1" version "${version}")
 
-if(COMMAND sudo)
-    install(
-        CODE
-        "execute_process(
-            COMMAND ${Python_EXECUTABLE} -m build
-            COMMAND sudo -EH ${Python_EXECUTABLE} -m pip install
-            ${CMAKE_BINARY_DIR}/dist/mypkg-${version}.tar.gz
-            COMMAND_ERROR_IS_FATAL ANY
-        )"
-    )
-else()
-    install(
-        CODE
-        "execute_process(
-            COMMAND ${Python_EXECUTABLE} -m build
-            COMMAND ${Python_EXECUTABLE} -m pip install
-            ${CMAKE_BINARY_DIR}/dist/mypkg-${version}.tar.gz
-            COMMAND_ERROR_IS_FATAL ANY
-        )"
-    )
-endif()
+install(
+    CODE
+    "execute_process(
+        COMMAND ${Python_EXECUTABLE} -m build
+        COMMAND ${Python_EXECUTABLE} -m pip install
+        ${CMAKE_BINARY_DIR}/dist/mypkg-${version}.tar.gz
+        COMMAND_ERROR_IS_FATAL ANY
+    )"
+)
 
 add_custom_target(uninstall
     COMMAND ${Python_EXECUTABLE} -m pip uninstall --yes mypkg

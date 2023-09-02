@@ -1,14 +1,6 @@
-<style>
-    div.title{
-        text-align: center; line-height: 120%;
-        font-size: xx-large; font-weight: bold; 
-        padding-bottom: 0.3em; margin-bottom:1em;
-        border-bottom-width: 4px; border-bottom-style: double;
-    }
-</style>
-<div class="title">
-[マニュアル（４）Python/C Wrapper の CMake 化](LINK)
-</div>
+<!-- omit in toc -->
+マニュアル（４）Python/C Wrapper の CMake 化
+============================================================
 
 - [1. 調査](#1-調査)
 - [2. ディレクトリ構成](#2-ディレクトリ構成)
@@ -64,9 +56,9 @@ CMake で Python/C Wrapper コードをビルドしていこう。
 │       │   └── mypkg_wrap.h
 │       └── mypkg_wrap.c
 ├── src-python
-│   ├── CMakeLists.txt (*)
 │   └── mypkg
 │       ├── __init__.py
+│       ├── CMakeLists.txt (*)
 │       └── core.py
 └── tests
     ├── CMakeLists.txt
@@ -234,16 +226,15 @@ REQUIRED だけ説明しておくと、これは要は「このパッケージ�
 
 > The REQUIRED option stops processing with an error message if the package cannot be found.
 
-これで設定される変数の一覧は、
-[ここ](https://cmake.org/cmake/help/latest/module/FindPython.html)で見れるが、
-ここで使うのは `Python_INCLUDE_DIRS` だ。
-3章で見た `/usr/include/python3.11` のようなパスがここに入る。
-それでは、これを PRIVATE として インクルードディレクトリに追加する。
+これで設定されるターゲットや変数の一覧は、
+[ここ](https://cmake.org/cmake/help/latest/module/FindPython.html)で見れる。
+ここで使うのは `Python::Python` ターゲットだ。
+3章で見た `/usr/include/python3.11` のようなパスもここに含まれる。
+それでは、これを PRIVATE としてリンクライブラリに追加する。
 
 ```cmake
-target_include_directories(mypkg_wrap
-    PUBLIC include
-    PRIVATE ${Python_INCLUDE_DIRS})
+target_link_libraries(mypkg_wrap
+    PRIVATE Python::Python mypkg)
 ```
 
 これでコンパイルが通るはずだ。
@@ -262,13 +253,13 @@ Python 用は src-python 下に分けたので衝突はしない。混乱を招�
 なので、 `add_custom_command` ではなく、
 ターゲットを追加する `add_custom_target` を使おう。
 
-`src-python/CMakeLists.txt` を作成して、以下の内容を書き込もう。
+`src-python/mypkg/CMakeLists.txt` を作成して、以下の内容を書き込もう。
 add_subdirectory を追加するのも忘れてはいけない。
 
 ```cmake
 add_custom_target(py_libmypkg ALL
     COMMAND ${CMAKE_COMMAND} -E copy
-    ${PROJECT_SOURCE_DIR}/src/mypkg_wrap/libmypkg_wrap.so libmypkg.so
+    $<TARGET_FILE:mypkg_wrap> libmypkg.so
     DEPENDS mypkg_wrap
 )
 ```
@@ -282,8 +273,27 @@ cmake が実行されている環境であればコピーを実行すること�
 このように書けば、このファイルを読み込んで cmake できる環境であれば環境依存を気にしなくても良くなる。
 
 これを使ってファイルをコピーする訳だが、
-コピーするときに libmypkg_wrap.so ができていないといけないので、
-`DEPENDS mypkg_wrap` も指定する必要がある。
+ターゲットの成果物は`$<TARGET_FILE:mypkg_wrap>`のような形で指定できる。
+また、コピーするときに libmypkg_wrap.so ができていないといけないので、
+`DEPENDS mypkg_wrap` も指定する。
+
+core.py も微修正する。
+
+```py
+from . import libmypkg as _mypkg
+
+
+def message(res):
+    res = _mypkg.message(res)
+    return res
+```
+
+`import libmypkg` のように環境にパスが通っている libmypkg をインポートするのではなく、
+`from . import libmypkg` のように、
+自身のパッケージに含まれる共有ライブラリをインポートする形に変更する。
+`as _mypkg` として名前を変更するかは好みだが、
+変に混同されることを防ぐために別名にしている。
+
 
 # 5. build 工程
 
@@ -299,7 +309,7 @@ find_package(Python REQUIRED COMPONENTS Interpreter Development)
 add_subdirectory(src/mypkg)
 add_subdirectory(src/myapp)
 add_subdirectory(src/mypkg_wrap)
-add_subdirectory(src-python)
+add_subdirectory(src-python/mypkg)
 add_subdirectory(tests)
 
 enable_testing()

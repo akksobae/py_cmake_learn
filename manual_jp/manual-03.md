@@ -1,14 +1,6 @@
-<style>
-    div.title{
-        text-align: center; line-height: 120%;
-        font-size: xx-large; font-weight: bold; 
-        padding-bottom: 0.3em; margin-bottom:1em;
-        border-bottom-width: 4px; border-bottom-style: double;
-    }
-</style>
-<div class="title">
-[マニュアル（３）Python 用 C 言語 Wrapper 実装](LINK)
-</div>
+<!-- omit in toc -->
+マニュアル（３）Python 用 C 言語 Wrapper 実装
+============================================================
 
 - [1. 調査](#1-調査)
 - [2. パッケージインストール](#2-パッケージインストール)
@@ -666,7 +658,7 @@ def message(res):
 from mypkg.core import message
 ```
 
-長かったが、これでビルドお呼び実装は完了である。
+長かったが、これでビルド及び実装は完了である。
 
 # 7. test 確認
 

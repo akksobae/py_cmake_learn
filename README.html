@@ -2620,28 +2620,6 @@ body,
                     data-dark-mode-theme="dark"
                     data-light-mode-theme="default"></span>
                 <h1 id="py_cmake_learn">py_cmake_learn</h1>
-<p>I would like to crate a Python package
-that uses C-lang library compiled by CMake.
-In addition, I would like to package it
-so that the package can be installed via pip.
-I will investigate, implement, and test how to achieve this goal step by step.</p>
-<p>The execution environment is wsl (Ubuntu 20.04).</p>
-<p>Let's create a C-lang library <code>mypkg</code> with CMake that meets the following specifications:</p>
-<ul>
-<li>Using a function <code>int message(int res)</code>, you can print &quot;Hello world!&quot;</li>
-<li>You can call this function by <code>import mypkg</code> in Python.</li>
-<li>You can test it at each compilation stage.</li>
-</ul>
-<p>You can jump to each manual from the following links.</p>
-<ul>
-<li><a href="./manual_jp/manual-01.html">1. C language project Implementation</a></li>
-<li><a href="./manual_jp/manual-02.html">2. CMake Implementation</a></li>
-<li><a href="./manual_jp/manual-03.html">3. Python Implementation with CMake</a></li>
-<li><a href="./manual_jp/manual-04.html">4. CMake Implementation of Python/C Wrapper</a></li>
-<li><a href="./manual_jp/manual-05.html">5. Create Docker environment and setup.py</a></li>
-<li><a href="./manual_jp/manual-06.html">6. Create pyproject.toml</a></li>
-</ul>
-<h1 id="日本語版概要">日本語版概要</h1>
 <p>Python パッケージから、
 cmake でコンパイルされたパッケージを導入しつつ、
 pip install できるようなパッケージとしてパッケージングしたい。
@@ -2661,6 +2639,28 @@ pip install できるようなパッケージとしてパッケージングし�
 <li><a href="./manual_jp/manual-04.html">4. Python/C Wrapper の CMake 化</a></li>
 <li><a href="./manual_jp/manual-05.html">5. Docker と setup.py の整備</a></li>
 <li><a href="./manual_jp/manual-06.html">6. pyproject.toml の整備</a></li>
+</ul>
+<h1 id="py_cmake_learn-eng-version">py_cmake_learn (ENG version)</h1>
+<p>I would like to crate a Python package
+that uses C-lang library compiled by CMake.
+In addition, I would like to package it
+so that the package can be installed via pip.
+I will investigate, implement, and test how to achieve this goal step by step.</p>
+<p>The execution environment is wsl (Ubuntu 20.04).</p>
+<p>Let's create a C-lang library <code>mypkg</code> with CMake that meets the following specifications:</p>
+<ul>
+<li>Using a function <code>int message(int res)</code>, you can print &quot;Hello world!&quot;</li>
+<li>You can call this function by <code>import mypkg</code> in Python.</li>
+<li>You can test it at each compilation stage.</li>
+</ul>
+<p>You can jump to each manual from the following links (written in Japanese):</p>
+<ul>
+<li><a href="./manual_jp/manual-01.html">1. C language project Implementation</a></li>
+<li><a href="./manual_jp/manual-02.html">2. CMake Implementation</a></li>
+<li><a href="./manual_jp/manual-03.html">3. Python Implementation with CMake</a></li>
+<li><a href="./manual_jp/manual-04.html">4. CMake Implementation of Python/C Wrapper</a></li>
+<li><a href="./manual_jp/manual-05.html">5. Create Docker environment and setup.py</a></li>
+<li><a href="./manual_jp/manual-06.html">6. Create pyproject.toml</a></li>
 </ul>
 </div>
         </div>

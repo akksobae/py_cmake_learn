@@ -6,7 +6,7 @@ find_package(Python REQUIRED COMPONENTS Interpreter Development)
 add_subdirectory(src/mypkg)
 add_subdirectory(src/myapp)
 add_subdirectory(src/mypkg_wrap)
-add_subdirectory(src-python)
+add_subdirectory(src-python/mypkg)
 add_subdirectory(tests)
 
 enable_testing()

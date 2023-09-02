@@ -1,14 +1,6 @@
-<style>
-    div.title{
-        text-align: center; line-height: 120%;
-        font-size: xx-large; font-weight: bold; 
-        padding-bottom: 0.3em; margin-bottom:1em;
-        border-bottom-width: 4px; border-bottom-style: double;
-    }
-</style>
-<div class="title">
-[マニュアル（１） C language project 実装](LINK)
-</div>
+<!-- omit in toc -->
+マニュアル（１） C language project 実装
+============================================================
 
 - [1. 調査](#1-調査)
 - [2. ディレクトリ構成](#2-ディレクトリ構成)
